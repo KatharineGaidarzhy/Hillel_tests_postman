@@ -1,0 +1,421 @@
+{
+	"info": {
+		"_postman_id": "56bd1526-ffc8-4b94-a38d-607538e632a2",
+		"name": "GraphQL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14325335",
+		"_collection_link": "https://blue-rocket-101346.postman.co/workspace/QAuto~17fe149c-18a2-4f4f-9fbe-d49cccc8a174/collection/14325335-56bd1526-ffc8-4b94-a38d-607538e632a2?action=share&source=collection_link&creator=14325335"
+	},
+	"item": [
+		{
+			"name": "query",
+			"item": [
+				{
+					"name": "basicRequest",
+					"item": [
+						{
+							"name": "GetAllAbstractCities",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Get 4 random city IDs and calculate average square of all cities\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    var cities = jsonData.data.getAllCities;",
+											"",
+											"    // Проверка, что в ответе есть хотя бы 4 города",
+											"    pm.expect(cities.length).to.be.at.least(4);",
+											"",
+											"    // Случайный выбор 4 уникальных ID и вычисление средней площади",
+											"    let randomIds = [];",
+											"    let totalSquare = 0;",
+											"    let usedIndexes = new Set();",
+											"",
+											"    while (randomIds.length < 4) {",
+											"        let randomIndex = Math.floor(Math.random() * cities.length);",
+											"        if (!usedIndexes.has(randomIndex)) {",
+											"            usedIndexes.add(randomIndex);",
+											"            randomIds.push(cities[randomIndex].id);",
+											"            totalSquare += cities[randomIndex].square;",
+											"        }",
+											"    }",
+											"",
+											"    let averageSquare = totalSquare / cities.length;",
+											"    pm.environment.set(\"randomCityIds\", JSON.stringify(randomIds));",
+											"    pm.environment.set(\"averageSquare\", averageSquare);",
+											"",
+											"    console.log(\"Random City IDs:\", randomIds);",
+											"    console.log(\"Average Square of All Cities:\", averageSquare);",
+											"",
+											"    // Сохраняем минимальный и максимальный ID для использования в следующем запросе",
+											"    let [minCityId, maxCityId] = [Math.min(...randomIds), Math.max(...randomIds)];",
+											"    pm.environment.set(\"minCityId\", minCityId);",
+											"    pm.environment.set(\"maxCityId\", maxCityId);",
+											"    console.log(\"Min City ID:\", minCityId);",
+											"    console.log(\"Max City ID:\", maxCityId);",
+											"",
+											"    // Генерация случайного имени и описания для нового города",
+											"    let randomCityName = \"City_\" + Math.floor(Math.random() * 10000);",
+											"    let randomCityDescription = \"Description for \" + randomCityName;",
+											"    pm.environment.set(\"randomCityName\", randomCityName);",
+											"    pm.environment.set(\"randomCityDescription\", randomCityDescription);",
+											"    console.log(\"Random City Name:\", randomCityName);",
+											"    console.log(\"Random City Description:\", randomCityDescription);",
+											"});",
+											"",
+											"// Проверки на корректность данных",
+											"pm.test(\"Check that response contains at least 4 cities\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.data.getAllCities.length).to.be.at.least(4);",
+											"});",
+											"",
+											"pm.test(\"Check that random city IDs are valid\", function () {",
+											"    var randomIds = JSON.parse(pm.environment.get(\"randomCityIds\"));",
+											"    pm.expect(randomIds.length).to.equal(4);",
+											"    randomIds.forEach(function(id) {",
+											"        pm.expect(id).to.be.a('string');",
+											"        pm.expect(id).to.have.length.greaterThan(0);",
+											"    });",
+											"});",
+											"",
+											"pm.test(\"Check that average square is calculated correctly\", function () {",
+											"    var averageSquare = pm.environment.get(\"averageSquare\");",
+											"    pm.expect(averageSquare).to.be.a('number');",
+											"    pm.expect(averageSquare).to.be.above(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query{\r\n  getAllCities{\r\n    id\r\n    name\r\n    square\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetCityDescriptionById",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Получаем IDs случайных городов из первого запроса",
+											"let randomIds = JSON.parse(pm.environment.get(\"randomCityIds\"));",
+											"",
+											"// Устанавливаем переменные для использования в GraphQL запросе",
+											"pm.environment.set(\"id1\", randomIds[0]);",
+											"pm.environment.set(\"id2\", randomIds[1]);",
+											"pm.environment.set(\"id3\", randomIds[2]);",
+											"pm.environment.set(\"id4\", randomIds[3]);",
+											"",
+											"console.log(\"City IDs for descriptions: \", randomIds);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Check if descriptions are returned\", function () {",
+											"    let responseData = pm.response.json().data;",
+											"    ",
+											"    // Проверяем, что получены все описания для городов",
+											"    pm.expect(responseData).to.have.property('city1');",
+											"    pm.expect(responseData).to.have.property('city2');",
+											"    pm.expect(responseData).to.have.property('city3');",
+											"    pm.expect(responseData).to.have.property('city4');",
+											"    ",
+											"    // Проверяем, что описания не пустые",
+											"    pm.expect(responseData.city1).to.not.be.empty;",
+											"    pm.expect(responseData.city2).to.not.be.empty;",
+											"    pm.expect(responseData.city3).to.not.be.empty;",
+											"    pm.expect(responseData.city4).to.not.be.empty;",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query getCityDescriptions($id1: ID!, $id2: ID!, $id3: ID!, $id4: ID!) {\r\n  city1: getCityDescription(id: $id1)\r\n  city2: getCityDescription(id: $id2)\r\n  city3: getCityDescription(id: $id3)\r\n  city4: getCityDescription(id: $id4)\r\n}\r\n\r\n",
+										"variables": "{\n  \"id1\": \"23\",\n  \"id2\": \"24\",\n  \"id3\": \"25\",\n  \"id4\": \"2\"\n}\n\n\n"
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetCityiesByRangeId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.test(\"Calculate min and max city IDs\", function () {",
+											"    let randomIds = JSON.parse(pm.environment.get(\"randomCityIds\"));",
+											"",
+											"    // Получаем минимальный и максимальный ID",
+											"    const minId = Math.min(...randomIds);",
+											"    const maxId = Math.max(...randomIds);",
+											"",
+											"    // Сохраняем минимальный и максимальный ID в переменные Postman",
+											"    pm.environment.set(\"minCityId\", minId);",
+											"    pm.environment.set(\"maxCityId\", maxId);",
+											"",
+											"    console.log(\"Min City ID:\", minId);",
+											"    console.log(\"Max City ID:\", maxId);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Check that cities are fetched in the correct ID range\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    var cities = jsonData.data.getCityByRangeId;",
+											"",
+											"    // Проверка, что города есть в ответе",
+											"    pm.expect(cities).to.be.an('array').that.is.not.empty;",
+											"",
+											"    // Получаем min и max ID из переменных окружения",
+											"    var minCityId = parseInt(pm.environment.get(\"minCityId\"));",
+											"    var maxCityId = parseInt(pm.environment.get(\"maxCityId\"));",
+											"",
+											"    // Проход по всем городам и проверка их ID",
+											"    cities.forEach(function(city) {",
+											"        var cityId = parseInt(city.id); // Преобразуем city.id в число",
+											"",
+											"        pm.expect(cityId).to.be.at.least(minCityId);",
+											"        pm.expect(cityId).to.be.at.most(maxCityId);",
+											"    });",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\r\n  getCityByRangeId(filter: { minId: {{minCityId}}, maxId: {{maxCityId}} }) {\r\n    id\r\n    name\r\n    square\r\n  }\r\n}\r\n\r\n",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AddCity",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Check that the new city is created successfully\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.data.addCity).to.have.property('id');",
+											"    pm.expect(jsonData.data.addCity).to.have.property('name');",
+											"    pm.expect(jsonData.data.addCity).to.have.property('square');",
+											"    pm.expect(jsonData.data.addCity.name).to.equal(pm.environment.get(\"randomCityName\"));",
+											"    pm.expect(jsonData.data.addCity.square).to.equal(pm.environment.get(\"averageSquare\"));",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation {\r\n  addCity(\r\n    name: \"{{randomCityName}}\",\r\n    square: {{averageSquare}},\r\n    description: \"{{randomCityDescription}}\"\r\n  ) {\r\n    id\r\n    name\r\n    square\r\n  }\r\n}\r\n\r\n\r\n\r\n\r\n\r\n",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetAllCities",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Get 4 random city IDs and calculate average square of all cities\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    var cities = jsonData.data.getAllCities;",
+											"",
+											"    pm.expect(cities.length).to.be.at.least(4);",
+											"",
+											"    let randomIds = [];",
+											"    let usedIndexes = new Set();",
+											"",
+											"    while (randomIds.length < 4) {",
+											"        let randomIndex = Math.floor(Math.random() * cities.length);",
+											"        let randomId = cities[randomIndex].id;",
+											"",
+											"        if (!usedIndexes.has(randomIndex)) {",
+											"            usedIndexes.add(randomIndex);",
+											"            randomIds.push(randomId);",
+											"        }",
+											"    }",
+											"",
+											"    pm.environment.set(\"randomCityIds\", JSON.stringify(randomIds));",
+											"",
+											"    let totalSquare = cities.reduce((sum, city) => sum + city.square, 0);",
+											"    let averageSquare = totalSquare / cities.length;",
+											"",
+											"    pm.environment.set(\"averageSquare\", averageSquare);",
+											"",
+											"    pm.expect(averageSquare).to.be.above(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query{\r\n  getAllCities{\r\n    id\r\n    name\r\n    square\r\n    ... on City{\r\n        description\r\n    }\r\n  }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://graphql-ukrainian-cities.hillel.it/graphql",
+			"type": "string"
+		},
+		{
+			"key": "minId",
+			"value": "10",
+			"type": "string"
+		},
+		{
+			"key": "maxId",
+			"value": "15",
+			"type": "string"
+		}
+	]
+}
