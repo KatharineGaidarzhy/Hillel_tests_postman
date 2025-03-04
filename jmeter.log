@@ -1,0 +1,27 @@
+2025-03-04 10:37:10,488 INFO o.a.j.u.JMeterUtils: Setting Locale to en_EN
+2025-03-04 10:37:10,530 INFO o.a.j.JMeter: Loading user properties from: /usr/local/Cellar/jmeter/5.6.3/libexec/bin/user.properties
+2025-03-04 10:37:10,530 INFO o.a.j.JMeter: Loading system properties from: /usr/local/Cellar/jmeter/5.6.3/libexec/bin/system.properties
+2025-03-04 10:37:10,540 INFO o.a.j.JMeter: Copyright (c) 1998-2024 The Apache Software Foundation
+2025-03-04 10:37:10,541 INFO o.a.j.JMeter: Version 5.6.3
+2025-03-04 10:37:10,541 INFO o.a.j.JMeter: java.version=21.0.1
+2025-03-04 10:37:10,541 INFO o.a.j.JMeter: java.vm.name=OpenJDK 64-Bit Server VM
+2025-03-04 10:37:10,541 INFO o.a.j.JMeter: os.name=Mac OS X
+2025-03-04 10:37:10,541 INFO o.a.j.JMeter: os.arch=x86_64
+2025-03-04 10:37:10,541 INFO o.a.j.JMeter: os.version=13.7.4
+2025-03-04 10:37:10,542 INFO o.a.j.JMeter: file.encoding=UTF-8
+2025-03-04 10:37:10,542 INFO o.a.j.JMeter: java.awt.headless=null
+2025-03-04 10:37:10,542 INFO o.a.j.JMeter: Max memory     =1073741824
+2025-03-04 10:37:10,542 INFO o.a.j.JMeter: Available Processors =4
+2025-03-04 10:37:10,564 INFO o.a.j.JMeter: Default Locale=English (EN)
+2025-03-04 10:37:10,646 INFO o.a.j.JMeter: JMeter  Locale=English (EN)
+2025-03-04 10:37:10,663 INFO o.a.j.JMeter: JMeterHome=/usr/local/Cellar/jmeter/5.6.3/libexec
+2025-03-04 10:37:10,671 INFO o.a.j.JMeter: user.dir  =/Users/kategaidarzhy/Documents/qa_tech_hillel/Hillel_tests_postman
+2025-03-04 10:37:10,671 INFO o.a.j.JMeter: PWD       =/Users/kategaidarzhy/Documents/qa_tech_hillel/Hillel_tests_postman
+2025-03-04 10:37:10,681 INFO o.a.j.JMeter: IP: 192.168.1.86 Name: MacBook-Pro.lan FullName: macbook-pro.lan
+2025-03-04 10:37:10,747 INFO o.a.j.JMeter: Loaded icon properties from org/apache/jmeter/images/icon.properties
+2025-03-04 10:37:11,762 INFO o.a.j.JMeterGuiLauncher: Setting LAF to: com.github.weisj.darklaf.DarkLaf:com.github.weisj.darklaf.theme.DarculaTheme
+2025-03-04 10:37:15,733 INFO o.a.j.r.ClassFinder: Will scan jar /usr/local/Cellar/jmeter/5.6.3/libexec/lib/ext/jmeter-plugins-manager-1.9.jar with filter ExtendsClassFilter [parents=[interface org.apache.jmeter.gui.action.Command], inner=false, contains=null, notContains=null]. Consider exposing JMeter plugins via META-INF/services, and add JMeter-Skip-Class-Scanning=true manifest attribute so JMeter can skip classfile scanning
+2025-03-04 10:37:15,992 INFO o.a.j.r.ClassFinder: Will scan jar /usr/local/Cellar/jmeter/5.6.3/libexec/lib/ext/jmeter-plugins-manager-1.9.jar with filter ExtendsClassFilter [parents=[interface org.apache.jmeter.gui.plugin.MenuCreator], inner=false, contains=null, notContains=null]. Consider exposing JMeter plugins via META-INF/services, and add JMeter-Skip-Class-Scanning=true manifest attribute so JMeter can skip classfile scanning
+2025-03-04 10:37:16,202 INFO o.j.r.JARSourceHTTP: Requesting https://jmeter-plugins.org/repo/?installID=mac_os_x-472a1b932d653f50d1ed43d41e9571ed-gui
+2025-03-04 10:37:19,187 INFO o.j.r.PluginManager: Plugins Status: [jpgc-plugins-manager=1.9, jmeter-core=5.6.3, jmeter-ftp=5.6.3, jmeter-http=5.6.3, jmeter-jdbc=5.6.3, jmeter-jms=5.6.3, jmeter-junit=5.6.3, jmeter-java=5.6.3, jmeter-ldap=5.6.3, jmeter-mail=5.6.3, jmeter-mongodb=5.6.3, jmeter-native=5.6.3, jmeter-tcp=5.6.3, jmeter-components=5.6.3]
+2025-03-04 10:37:19,193 INFO o.j.r.PluginManagerMenuItem: Plugins Manager has upgrades: [jpgc-plugins-manager]
